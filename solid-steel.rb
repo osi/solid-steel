@@ -33,3 +33,22 @@ library.tracks.select { |t| t.episode_ID.empty? }.each do |track|
 end
 
 multi_parts.process
+
+library.tracks.inject({}) do |hash, track|
+  year = track.album[-4..-1]
+  
+  hash[year] ||= []
+  hash[year] << track
+  
+  hash
+end.each do |year, tracks|
+  puts "#{year} has #{tracks.length} tracks"
+  disc = 0
+  episode_ID = nil
+  tracks.sort { |a,b| a.episode_ID <=> b.episode_ID }.each do |track|
+    disc += 1 if track.episode_ID != episode_ID
+    track.disc_number = disc
+    episode_ID = track.episode_ID
+  end
+  tracks.each { |track| track.disc_count = disc }
+end

@@ -53,7 +53,7 @@ class Track
     duration > 110
   end
   
-  properties :name, :artist, :album, :year, :date_added, :lyrics, :time, :album, :track_number, :track_count, :compilation, :comment, :episode_ID
+  properties :name, :artist, :album, :year, :date_added, :lyrics, :time, :album, :track_number, :track_count, :compilation, :comment, :episode_ID, :disc_count, :disc_number
 
   def to_s
     "#{name} / #{artist} / #{duration}"
