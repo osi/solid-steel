@@ -56,7 +56,7 @@ class Track
   properties :name, :artist, :album, :year, :date_added, :lyrics, :time, :album, :track_number, :track_count, :compilation, :comment, :episode_ID
 
   def to_s
-    "#{name} / #{artist}"
+    "#{name} / #{artist} / #{duration}"
 #     <<-EOF
 # Title : #{name}
 # Artist: #{artist}

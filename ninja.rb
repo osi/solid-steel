@@ -3,8 +3,9 @@ module Ninja
   require "hpricot"
   require "net/http"
 
+  URL = "http://www.ninjatune.net/solidsteel/index.php?id="
+
   class Archive
-    URL = "http://www.ninjatune.net/solidsteel/index.php?id="
     
     attr_reader :episodes
 
@@ -41,15 +42,52 @@ module Ninja
       @date = date
       @artists = artists
       @id = id
+      @segments = nil
     end
     
     def human_date
       date.strftime('%Y-%m-%d')
     end
     
+    def segments
+      if @segments.nil?
+        @segments = Episode.parse_segments Net::HTTP.get(URI.parse(URL + @id))
+      end
+      
+      @segments
+    end
+    
     def to_s
       "\##{@id} - #{human_date} - #{@artists}"
     end
+    
+    def self.parse_segments(text)
+      Hpricot.parse(text).search("div.column_middle div.entry_releases").map { |element| Segment.parse(element) }
+    end
   end
-
+  
+  class Segment
+    attr_accessor :artist, :tracks
+    
+    def self.parse(element)
+      segment = Segment.new 
+      segment.artist = element.search("strong").inner_text[9..-1]
+      segment.tracks = element.search("table tr")[1..-1].map { |row| Song.parse(row) }
+      
+      segment
+    end
+  end
+  
+  class Song
+    attr_accessor :artist, :title, :label
+    
+    def self.parse(row)
+      cells = row.search("td")
+      song = Song.new
+      song.artist = cells[0].inner_text.strip
+      song.title = cells[2].inner_text.strip
+      song.label = cells[4].inner_text.strip
+      song
+    end
+  end
 end
