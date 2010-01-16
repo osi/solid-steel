@@ -119,12 +119,16 @@ class Resolver
       Time.gm("20#{$3}", $2, $1)
     when /Solid Steel \((\d+) ([a-z]+)\)/i
       Time.gm(year, $2, $1)
+    when /Solid Steel::(\d{2}).(\d{2}).(\d{4})/
+      Time.gm($3, $2, $1)
+    when /Solid Steel - (\d{2}).(\d{2}).(\d{4})/
+      Time.gm($3, $2, $1)
     end
   end
   
 end
 
-# 
+
 # [
 # "Solid Steel (09 OCT 2009) / DK -> Pablo, King Cannibal , DK on Fri Oct 23 00:00:00 UTC 2009",
 # "Solid Steel 2006-08-18",
@@ -133,9 +137,11 @@ end
 # "Solid Steel 20th-Feb-09",
 # "Solid Steel (23 Jan)",
 # "Solid Steel (26.12.08)",
-# "Solid Steel (15 Aug)"
+# "Solid Steel (15 Aug)",
+# "Solid Steel::27.11.2009",
+# "Solid Steel - 08.01.2010"
 # ].each do |s|
 # 
-# puts Resolver.new(nil).air_date_from_track_name(s, Time.now)
-# 
-# end
+# puts Resolver.new(nil).air_date_from_track_name(s, 2009)
+
+end

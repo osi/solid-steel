@@ -9,7 +9,8 @@ require "pp"
 # VERSION = "0.1"
 
 library = Library.new
-archive = Ninja::Archive.from_file
+# archive = Ninja::Archive.from_file
+archive = Ninja::Archive.from_net
 
 resolver = Resolver.new(archive)
 
