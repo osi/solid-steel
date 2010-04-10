@@ -123,6 +123,8 @@ class Resolver
       Time.gm($3, $2, $1)
     when /Solid Steel - (\d{2}).(\d{2}).(\d{4})/
       Time.gm($3, $2, $1)
+    when /(\d{2})-(\d{2})-(\d{2})/
+      Time.gm(2000 + $1.to_i, $2, $3)
     end
   end
   
@@ -139,9 +141,8 @@ end
 # "Solid Steel (26.12.08)",
 # "Solid Steel (15 Aug)",
 # "Solid Steel::27.11.2009",
-# "Solid Steel - 08.01.2010"
+# "Solid Steel - 08.01.2010",
+# "10-02-05"
 # ].each do |s|
-# 
 # puts Resolver.new(nil).air_date_from_track_name(s, 2009)
-
-end
+# end
