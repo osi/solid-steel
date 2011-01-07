@@ -3,7 +3,7 @@ module Ninja
   require "hpricot"
   require "net/http"
 
-  URL = "http://www.ninjatune.net/solidsteel/index.php?id="
+  URL = "http://solidsteel.ninjatune.net/index.php?id="
 
   class Archive
     
