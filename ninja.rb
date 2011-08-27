@@ -71,7 +71,8 @@ module Ninja
     
     def self.parse(element)
       segment = Segment.new 
-      segment.artist = element.search("strong").inner_text[9..-1]
+      segment.artist = element.search("strong").inner_text[11..-1]
+      # puts "INNER TEXT '#{element.search("strong").inner_text[11..-1]}' '#{segment.artist}'"
       segment.tracks = element.search("table tr")[1..-1].map { |row| Song.parse(row) }
       
       segment

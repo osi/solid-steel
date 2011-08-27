@@ -27,7 +27,7 @@ class Multipart
   end
   
   def fixup_unevenly_split_show(episode, tracks, total_time)
-    puts "need to fix #{episode} #{tracks}"
+    puts "need to fix #{episode}:\n\t#{tracks.join("\n\t")}"
     tracks = tracks.sort { |t1, t2| t1.track_number <=> t2.track_number }
     percentages = time_percentages tracks, total_time
     segment_counts = segment_counts percentages
