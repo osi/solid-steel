@@ -1,10 +1,11 @@
 require "appscript"
+require 'sdefToRBAppscriptModule'
 
 class Library
   include Appscript
 
   def initialize
-    @itunes = app("iTunes")
+    @itunes = Appscript.app("iTunes", SDEFParser.makeModule("/Applications/iTunes.app"))
     @playlist = @itunes.playlists["Solid Steel"].get
   end
 
