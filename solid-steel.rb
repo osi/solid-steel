@@ -48,8 +48,10 @@ end.each do |year, tracks|
   episode_ID = nil
   tracks.sort { |a,b| a.episode_ID <=> b.episode_ID }.each do |track|
     disc += 1 if track.episode_ID != episode_ID
-    track.disc_number = disc
+    track.disc_number = disc unless track.disc_number == disc
     episode_ID = track.episode_ID
   end
-  tracks.each { |track| track.disc_count = disc }
+  tracks.each do |track| 
+    track.disc_count = disc unless track.disc_count == disc
+  end
 end
