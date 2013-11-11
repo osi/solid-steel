@@ -26,7 +26,9 @@ class Track
         @itunes_track.send(prop).get
       end
       define_method "#{prop}=" do |value|
-        @itunes_track.send(prop).set value
+        if @itunes_track.send(prop).get != value
+          @itunes_track.send(prop).set value
+        end
       end
     end
   end

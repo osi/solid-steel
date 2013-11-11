@@ -13,71 +13,7 @@ class Resolver
       return episode
     end
     
-    episodes = archive.episodes.find_all { |e| track.date_added > e.date }
-    
-    if episodes.empty?
-      STDERR.puts "No episode immediately after date added for #{track}"
-      return nil
-    end
-    
-    rejects = Array.new
-    
-    episodes.each do |e|
-      if "Solid Steel Show" == track.name[0, 16] 
-        artist_in_track = track.name[17..-1]
-      
-        if fuzzy_match_names(artist_in_track, e.artists)
-          # puts "** FUZZY NAME MATCH #{artist_in_track} -> #{e.artists}"
-          episode = e
-          break
-        end
-
-        rejects << "NO FUZ LUV \n\t#{clean_name(artist_in_track)}\n\t#{clean_name(e.artists)}"
-      elsif not track.artist.empty?
-        if fuzzy_match_names(track.artist, e.artists)
-          # puts "** FUZZY NAME MATCH #{artist_in_track} -> #{e.artists}"
-          episode = e
-          break
-        end
-
-        rejects << "NO FUZ LUV \n\t#{clean_name(track.artist)}\n\t#{clean_name(e.artists)}"
-      end
-    end
-
-    puts rejects if episode.nil?
-    
-    episode
-  end
-  
-  def clean_name(name)
-    name.gsub(/[_,\-\&]/, ' ').downcase.strip.squeeze(' ')
-  end
-  
-  def fuzzy_match_names(track, episode)
-    track = clean_name(track)
-    episode = clean_name(episode)
-
-    if track == episode
-      true
-    elsif track.include?(episode) or episode.include?(track)
-      true
-    elsif episode =~ /(.*) \(classic edition\)$/ and track.index($1) == 0
-      true
-    else
-      track_components = track.split(' ')
-      episode_components = episode.split(' ')
-      # episode.split(' ').each { |t| ++matches if track_tokens.remove(t) }
-      
-      matches = (track_components & episode_components).length
-      
-      if track_components.length == episode_components.length
-        ratio = matches.to_f / track_components.length
-        
-        ratio >= 0.75
-      else
-        ((matches.to_f / track_components.length) + (matches.to_f / episode_components.length)) / 2 >= 0.7
-      end
-    end
+    raise "Unable to determine episode for #{track}"
   end
   
   def match_by_air_date(name, year)
@@ -124,6 +60,8 @@ class Resolver
     when /Solid Steel - (\d{2}).(\d{2}).(\d{4})/
       Time.gm($3, $2, $1)
     when /(\d{2})-(\d{2})-(\d{2})/
+      Time.gm(2000 + $1.to_i, $2, $3)
+    when /(\d{2})-(\d{2})-(\d{2})-\d{2}/
       Time.gm(2000 + $1.to_i, $2, $3)
     end
   end

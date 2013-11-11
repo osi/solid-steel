@@ -25,7 +25,6 @@ library.tracks.select { |t| t.episode_ID.empty? }.each do |track|
   elsif track.complete_show?
     track.track_count = ''
     track.track_number = ''
-    track.artist = episode.artists
     track.episode = episode
     puts "#{track}"
   else
