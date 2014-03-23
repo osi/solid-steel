@@ -1,4 +1,7 @@
-#!/usr/bin/env ruby -wKU -rrubygems
+#!/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/bin/ruby -wKU -rrubygems
+
+
+##!/usr/bin/env ruby -wKU -rrubygems
 
 require "itunes"
 require "ninja"
